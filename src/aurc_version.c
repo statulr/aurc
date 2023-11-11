@@ -5,7 +5,7 @@
 #include <ctype.h>
 
 // Aurc Version
-#define VERSION "1.1.7"
+#define VERSION "1.1.9"
 
 // Function to display the version
 void displayVersion() {
