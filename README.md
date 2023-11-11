@@ -1,6 +1,7 @@
 # Aurc
 Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 ![aurcbanner](https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9)
+## Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
 
 ## TODO
