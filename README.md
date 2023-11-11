@@ -10,6 +10,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 - [x] Better inspection and secure aur package installation
 - [x] Better optimization
 - [ ] Fully Move To Using C Libraries rather than command line wrapping
+<br>
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/statulr/aurc/issues)
 
 
