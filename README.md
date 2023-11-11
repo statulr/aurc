@@ -2,7 +2,7 @@
 Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 ![aurcbanner](https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9)
 
-## TODO
+## TODO [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/statulr/aurc/issues)
 
 - [x] Complete the essential pacman functions
 - [x] Ability to modify arch mirrorlist
@@ -10,9 +10,6 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 - [x] Better inspection and secure aur package installation
 - [x] Better optimization
 - [ ] Fully Move To Using C Libraries rather than command line wrapping
-<br>
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/statulr/aurc/issues)
-
 
 ## Requirements
 
