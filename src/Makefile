@@ -1,6 +1,6 @@
 # Makefile for Aurc
 
-LDFLAGS = -lcurl
+LDFLAGS = -lcurl -larchive
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 

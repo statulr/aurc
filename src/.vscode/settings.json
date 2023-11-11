@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "archive.h": "c",
+        "archive_entry.h": "c"
+    }
+}

@@ -6,6 +6,8 @@
 #include <bsd/string.h>  // Include for strlcat
 
 #define MAX_COMMAND_LENGTH 500
+#define REMOVE_FORCE_COMMAND "sudo pacman -Rdd "
+#define INSTALL_FORCE_COMMAND "sudo pacman -Sdd "
 
 // Function to execute a pacman command
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage) {
@@ -45,7 +47,8 @@ void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, con
 void installLocalPackages(int argc, char *argv[]) {
     if (argc >= 3) {
         char command[MAX_COMMAND_LENGTH];
-        snprintf(command, sizeof(command), "sudo pacman -U %s", argv[2]);
+        strcpy(command, "sudo pacman -U ");
+        strcat(command, argv[2]);
         command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
         system(command);
     } else {
@@ -55,12 +58,12 @@ void installLocalPackages(int argc, char *argv[]) {
 
 // Function to remove packages
 void removePackagesForce(int argc, char *argv[]) {
-    executePacmanCommand(argc, argv, "sudo pacman -Rdd ", "remove-force <package_name1> <package_name2> ...");
+    executePacmanCommand(argc, argv, REMOVE_FORCE_COMMAND, "remove-force <package_name1> <package_name2> ...");
 }
 
 // Function to install packages with force
 void installPackagesForce(int argc, char *argv[]) {
-    executePacmanCommand(argc, argv, "sudo pacman -Sdd ", "install-force <package_name1> <package_name2> ...");
+    executePacmanCommand(argc, argv, INSTALL_FORCE_COMMAND, "install-force <package_name1> <package_name2> ...");
 }
 
 // Function to remove packages
