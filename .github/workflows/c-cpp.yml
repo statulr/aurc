@@ -1,0 +1,20 @@
+name: Arch-C CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    steps:
+    - name: make
+      run: make
+    - name: make check
+      run: make check
+    - name: make distcheck
+      run: make distcheck
+    - name: arch make
+      uses: g4bri3lDev/arch-make-action@v1.28
