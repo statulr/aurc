@@ -8,12 +8,11 @@
 #include "aurc_version.c"
 #include "aurc_pac.c"
 #include "aurc_valid.c"
-
-#define MAX_PACKAGE_NAME_LENGTH 256
-#define MAX_INPUT_SIZE 512
+#include "commands.h"
+#include "constants.h"
 
 void sanitizeInput(const char *input, char *output, size_t size) {
-    if (strlen(input) >= size) {
+    if (strnlen(input, size) >= size) {
         fprintf(stderr, "Too many args.\n");
         exit(1);
     }
@@ -29,7 +28,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Check for help flag
-    if (argc == 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0)) {
+    if (argc == 2 && getCommandType(argv[1]) == CMD_HELP) {
         printf("Aurc Package Manager - Help\n\n");
         printf("Usage: %s <action> [package_name]\n", argv[0]);
         printf("\nActions:\n");
@@ -92,19 +91,18 @@ int main(int argc, char *argv[]) {
             return 1;
         }
     } else if (strcmp(action, "github") == 0) {
-        const char *url = "https://github.com/statulr/aurc";
-        printf("Opening GitHub...\n");
-        char sanitizedCommand[MAX_INPUT_SIZE];
-        snprintf(sanitizedCommand, sizeof(sanitizedCommand), "xdg-open %s >/dev/null 2>&1", url);
-        int result = system(sanitizedCommand);
-        if (result == 0) {
-            printf(GREEN "GitHub opened successfully!\n" RESET);
-            return 0;
-        } else {
-            fprintf(stderr, RED "Error: Failed to open GitHub!\n" RESET);
-            return 1;
-        }
-    } else if (strcmp(action, "search-aur") == 0) {
+    printf("Opening GitHub...\n");
+    char sanitizedCommand[MAX_INPUT_SIZE];
+    snprintf(sanitizedCommand, sizeof(sanitizedCommand), "xdg-open %s >/dev/null 2>&1", "https://github.com/statulr/aurc");
+    int result = system(sanitizedCommand);
+    if (result == 0) {
+        printf(GREEN "GitHub opened successfully!\n" RESET);
+        return 0;
+    } else {
+        fprintf(stderr, RED "Error: Failed to open GitHub!\n" RESET);
+        return 1;
+    }
+} else if (strcmp(action, "search-aur") == 0) {
         if (argc == 3) {
             searchAurPackage(argv[2]);
         } else {

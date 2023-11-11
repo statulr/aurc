@@ -2,6 +2,8 @@
     "files.associations": {
         "unistd.h": "c",
         "archive.h": "c",
-        "archive_entry.h": "c"
+        "archive_entry.h": "c",
+        "search.h": "c",
+        "string.h": "c"
     }
 }

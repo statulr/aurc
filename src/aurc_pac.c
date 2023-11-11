@@ -4,10 +4,7 @@
 #include <unistd.h>
 #include "aurc_colors.c"
 #include <bsd/string.h>  // Include for strlcat
-
-#define MAX_COMMAND_LENGTH 500
-#define REMOVE_FORCE_COMMAND "sudo pacman -Rdd "
-#define INSTALL_FORCE_COMMAND "sudo pacman -Sdd "
+#include "constants.h"
 
 // Function to execute a pacman command
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage) {
