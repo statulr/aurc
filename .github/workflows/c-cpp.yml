@@ -9,6 +9,7 @@ on:
 jobs:
   build:
 
+    runs-on: arch-linux
     steps:
     - name: make
       run: make
