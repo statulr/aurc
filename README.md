@@ -19,6 +19,8 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    - pacman
    - curl
    - base-devel
+   - make
+   - gcc
 
 ## Usage
 
