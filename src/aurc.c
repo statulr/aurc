@@ -5,7 +5,6 @@
 #include <search.h>
 #include "aurc_aur.c"
 #include "aurc_shell.c"
-#include "aurc_version.c"
 #include "aurc_pac.c"
 #include "aurc_valid.c"
 #include "commands.h"
@@ -21,12 +20,6 @@ void sanitizeInput(const char *input, char *output, size_t size) {
 }
 
 int main(int argc, char *argv[]) {
-    // Check for version flag
-    if (argc == 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        displayVersion();
-        return 0;
-    }
-
     // Check for help flag
     if (argc == 2 && getCommandType(argv[1]) == CMD_HELP) {
         printf("Aurc Package Manager - Help\n\n");
@@ -44,14 +37,23 @@ int main(int argc, char *argv[]) {
         printf("  " YELLOW "search" RESET "           Search for a package in the base repository\n");
         printf("  " YELLOW "search-aur" RESET "       Search for a package in the aur repository\n");
         printf("  " RED "remove" RESET "           Remove packages\n");
-        printf("  " RED "remove-dep" RESET "       Remove packages along with its dependencies\n");
-        printf("  " RED "remove-force" RESET "     Forcefully remove packages even if other packages depend on it\n");
+	printf("  " RED "remove-dep" RESET "       Remove packages along with its dependencies\n");
+	printf("  " RED "remove-force" RESET "     Forcefully remove packages even if other packages depend on it\n");
         printf("  " RED "remove-force-dep" RESET " Forcefully remove packages even if other packages depend on it along with its dependencies\n");
         printf("  " RED "remove-orp" RESET "       Remove orphan packages\n");
         printf("\nOptions:\n");
         printf("  --version, -v    Display the version of the package manager\n");
         printf("  --help, -h       Display this help guide\n");
         return 0;
+    }
+    if (argc == 2 && getCommandType(argv[1]) == CMD_VERSION) {
+    printf("\n");
+    printf("Aurc Package Manager Version %s\n", VERSION);
+    printf("Copyright (C) 2023 Statulr\n");
+    printf("\n");
+    printf("This program may be freely redistributed under\n");
+    printf("the terms of the GNU General Public License.\n");
+    printf("\n");
     }
 
     if (argc < 2) {
