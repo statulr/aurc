@@ -13,6 +13,13 @@ license=('GPL3')
 depends=(
   'less'
   'pacman'
+  'gcc'
+  'curl'
+  'make'
+  'base-devel'
+  'git'
+  'vim'
+  'tar'
 )
 optdepends=(
   'sudo: privilege elevation'
