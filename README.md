@@ -100,5 +100,5 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    ```
    Then
    ```bash
-   sudo rm -rd build && sudo make && sudo make clean install
+   sudo rm -rd build && sudo make clean install
    ```
