@@ -30,6 +30,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
   * Actions :
     - update        - ( Update outdated system/user packages )
     - refresh       - ( Refresh Repository Database )
+    - github        - ( Opens GitHub )
     - install       - ( Install a package )
     - install-local - ( Install a local package )
     - install-aur   - ( Install aur package )
