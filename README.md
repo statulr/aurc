@@ -55,7 +55,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
   * Install dependencies : 
 
       ```bash
-      sudo pacman -S less gcc pacman make base-devel git vim tar curl
+      sudo pacman -S less gcc pacman make base-devel git sudo tar curl
       ```
 
   * Method 1 :
