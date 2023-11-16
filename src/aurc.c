@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
     printf("This program may be freely redistributed under\n");
     printf("the terms of the GNU General Public License.\n");
     printf("\n");
+    return 0;
     }
 
     if (argc < 2) {

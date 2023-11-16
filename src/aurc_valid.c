@@ -7,9 +7,8 @@
 int isValidAction(const char *action) {
     // Check for NULL pointer
     if (action == NULL) {
-        // Handle the error, maybe return an indication that the action is invalid
-        return 0;
-    }
+       return 0; 
+    } 
 
     // Define valid actions
     char *validActions[] = {
