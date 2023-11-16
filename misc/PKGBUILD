@@ -2,7 +2,7 @@
 
 pkgname=aurc
 pkgenv=aurc
-pkgver=1.1.9
+pkgver=1.1.10
 pkgrel=1
 pkgdesc="Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!"
 PACKAGER=statulr
@@ -18,7 +18,7 @@ depends=(
   'make'
   'base-devel'
   'git'
-  'vim'
+  'sudo'
   'tar'
 )
 optdepends=(
