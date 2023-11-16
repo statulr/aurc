@@ -140,5 +140,11 @@ void refreshRepo() {
 
 // Function to modify repo
 void modifyRepo() {
-    executeCommandWithUserShell("sudo vim /etc/pacman.d/mirrorlist");
+    char *editor = getenv("EDITOR");
+    if (editor == NULL) {
+        editor = "nano"; // default to nano if $EDITOR is not set
+    }
+    char command[256];
+    snprintf(command, sizeof(command), "sudo %s /etc/pacman.d/mirrorlist", editor);
+    executeCommandWithUserShell(command);
 }
