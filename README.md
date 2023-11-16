@@ -4,14 +4,16 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 
 ## TODO
 
-- [x] Complete the essential pacman functions
-- [x] Ability to modify arch mirrorlist
-- [x] Implement aur helper
-- [x] Better inspection and secure aur package installation
-- [x] Better optimization
-- [ ] Fully Move To Using C Libraries rather than command line wrapping
+- [x] Complete the Essential Pacman Functions
+- [x] Ability to Modify Arch Mirrorlist
+- [x] Implement AUR Helper
+- [x] Better Inspection and Secure AUR Package Installation
+- [x] Better Optimization
+- [x] Implement Better Command Handling
 
 ## Requirements
+* Arch Linux
+* A Text Editor Set in $EDITOR Path
 
 * Dependencies -
   
@@ -22,7 +24,6 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    - make
    - gcc
    - git
-   - vim
    - tar
 
 ## Usage
