@@ -6,7 +6,7 @@
 // Function to check if an action is valid
 int isValidAction(const char *action)
 {
-    // Check for NULL pointer
+    // Error handling
     if (action == NULL)
     {
         return 0;
@@ -33,10 +33,10 @@ int isValidAction(const char *action)
         hsearch(e, ENTER);
     }
 
-    // Check if action is valid
+    // Main logic
     e.key = (char *)action;
     ep = hsearch(e, FIND);
-    hdestroy(); // Destroy the hash set (Frees up memory once done :P)
+    hdestroy(); // Destroy the hash set
 
     return ep != NULL;
 }

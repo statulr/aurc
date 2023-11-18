@@ -35,38 +35,72 @@ char *getCurrentUserShell()
     return shell;
 }
 
-// Execute a command with the user's shell the command is executed in
 void executeCommandWithUserShell(char *command)
 {
     if (command == NULL || strlen(command) == 0)
     {
-        printf("Invalid command. Exiting.\n");
+        fprintf(stderr, "Invalid command. Exiting.\n");
         exit(EXIT_FAILURE);
     }
+    size_t commandLength = strlen(command);
+    char *commandWithReset = malloc(commandLength + strlen("; echo -e '\033[0m'") + 1);
+    if (commandWithReset == NULL)
+    {
+        perror("Failed to allocate memory for commandWithReset");
+        exit(EXIT_FAILURE);
+    }
+    strncpy(commandWithReset, command, commandLength);
+    strncpy(commandWithReset + commandLength, "; echo -e '\033[0m'", strlen("; echo -e '\033[0m'") + 1);
 
     char *userShell = getCurrentUserShell();
-    if (userShell != NULL)
-    {
-        char *argv[] = {userShell, "-c", command, NULL};
 
-        printf("Executing command with user's shell: %s\n", userShell);
+    if (userShell == NULL)
+    {
+        fprintf(stderr, "Unable to detect user's shell. Fallback to system() for command execution.\n");
+
+        if (system(commandWithReset) == -1)
+        {
+            perror("Failed to execute command with system");
+            exit(EXIT_FAILURE);
+        }
+
+        free(commandWithReset);
+        return;
+    }
+    printf("Executing command with user's shell: %s\n", userShell);
+
+    char *argv[] = {userShell, "-c", commandWithReset, NULL};
+
+    pid_t pid = fork();
+    if (pid == -1)
+    {
+        perror("Failed to fork process");
+        free(userShell);
+        free(commandWithReset);
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        // Child process
         if (execvp(userShell, argv) == -1)
         {
-            perror("execvp");
-            free(userShell);
+            perror("Failed to execute command with execvp");
             exit(EXIT_FAILURE);
         }
     }
     else
     {
-        printf("Unable to detect user's shell. Fallback to system() for command execution.\n");
-
-        if (system(command) == -1)
+        // Parent process
+        int status;
+        if (waitpid(pid, &status, 0) == -1)
         {
-            perror("system");
+            perror("Failed to wait for child process");
+            free(userShell);
+            free(commandWithReset);
             exit(EXIT_FAILURE);
         }
     }
 
-    free(userShell); // Free userShell in all exit paths
+    free(userShell);
+    free(commandWithReset);
 }

@@ -5,7 +5,7 @@
 
 #include <string.h>
 #include <string.h>
-#include "aurc_colors.h"
+#include "colors.h"
 
 // Define an enum for the command types
 typedef enum
@@ -31,6 +31,7 @@ CommandType getCommandType(const char *str)
 
 void handleConfigCommand(int argc, char *argv[])
 {
+    // Error handling
     if (argc < 3 || (strncmp(argv[2], "--editor", 8) != 0 && strncmp(argv[2], "-e", 2) != 0))
     {
         fprintf(stderr, RED "Usage: %s config -e <editor>\n" RESET, argv[0]);
@@ -45,6 +46,12 @@ void handleConfigCommand(int argc, char *argv[])
 
     char *editor = argv[3];
     char *home = getenv("HOME");
+    if (!home)
+    {
+        fprintf(stderr, RED "Could not get home directory\n" RESET);
+        exit(1);
+    }
+
     char configPath[256];
     snprintf(configPath, sizeof(configPath), "%s/.aurcrc", home);
 
@@ -55,9 +62,11 @@ void handleConfigCommand(int argc, char *argv[])
         exit(1);
     }
 
+    // Main logic
     fprintf(file, "editor=%s\n", editor);
     fclose(file);
 
     printf(GREEN "Successfully set editor to %s\n" RESET, editor);
 }
+
 #endif // COMMANDS_H

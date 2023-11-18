@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <regex.h>
+#include "colors.h"
 
 void existingAurPackage(const char *packageName);
 void displayPkgBuild(const char *packageName, const char *downloadDir);
@@ -150,7 +151,7 @@ void installAurPackages(char **packageNames, int numPackages)
         }
         else if (reti == REG_NOMATCH)
         {
-            printf("Invalid package name '%s'.\n", packageName);
+            printf(YELLOW "Invalid package name '%s'.\n" RESET, packageName);
             continue;
         }
         else
@@ -162,7 +163,6 @@ void installAurPackages(char **packageNames, int numPackages)
         }
     }
 
-    /* Free compiled regular expression if you want to use the regex_t again */
     regfree(&regex);
     curl_easy_cleanup(curl);
 }
@@ -173,7 +173,7 @@ void queryAurRepo(const char *packageName, char *message)
     int ret = snprintf(url, sizeof(url), "https://aur.archlinux.org/rpc/?v=5&type=search&arg=%s", packageName);
     if (ret < 0 || ret >= (int)sizeof(url))
     {
-        printf("URL is too long or snprintf failed.\n");
+        fprintf(stderr, RED "URL is too long or snprintf failed.\n");
         return;
     }
 
@@ -221,4 +221,6 @@ void clearAurBuildCache()
     char cleanupCommand[300];
     snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/*", downloadDir);
     system(cleanupCommand);
+    printf(YELLOW "Clearing AUR build cache...\n" RESET);
+    printf(GREEN "Done.\n" RESET);
 }

@@ -2,50 +2,48 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "aurc_colors.h"
 #include <bsd/string.h>
 #include "constants.h"
+#include "colors.h"
 
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage)
 {
-    if (argc >= 3)
-    {
-        size_t commandLength = strlen(commandPrefix);
-        for (int i = 2; i < argc; ++i)
-        {
-            commandLength += strlen(argv[i]) + 1;
-        }
-
-        if (commandLength > MAX_COMMAND_LENGTH)
-        {
-            fprintf(stderr, "Command too long\n");
-            return;
-        }
-
-        char *command = malloc(commandLength + 1);
-        if (command == NULL)
-        {
-            perror("malloc");
-            return;
-        }
-
-        strncpy(command, commandPrefix, commandLength);
-        for (int i = 2; i < argc; ++i)
-        {
-            strlcat(command, argv[i], commandLength);
-            if (i < argc - 1)
-            {
-                strlcat(command, " ", commandLength);
-            }
-        }
-
-        executeCommandWithUserShell(command);
-        free(command);
-    }
-    else
+    if (argc < 3)
     {
         fprintf(stderr, RED "Usage: %s %s\n" RESET, argv[0], usageMessage);
+        return;
     }
+
+    size_t commandLength = strlen(commandPrefix);
+    for (int i = 2; i < argc; ++i)
+    {
+        commandLength += strlen(argv[i]) + 1;
+    }
+
+    if (commandLength > MAX_COMMAND_LENGTH)
+    {
+        fprintf(stderr, "Command too long\n");
+        return;
+    }
+
+    char *command = malloc(commandLength + 1);
+    if (command == NULL)
+    {
+        perror(RED "malloc" RESET);
+        return;
+    }
+
+    strncpy(command, commandPrefix, commandLength);
+    for (int i = 2; i < argc; ++i)
+    {
+        strncat(command, argv[i], commandLength - strlen(command) - 1);
+        if (i < argc - 1)
+        {
+            strncat(command, " ", commandLength - strlen(command) - 1);
+        }
+    }
+    executeCommandWithUserShell(command);
+    free(command);
 }
 
 void installLocalPackages(int argc, char *argv[])
@@ -64,25 +62,21 @@ void installLocalPackages(int argc, char *argv[])
     }
 }
 
-// Function to remove packages
 void removePackagesForce(int argc, char *argv[])
 {
     executePacmanCommand(argc, argv, REMOVE_FORCE_COMMAND, "removeForce <packageName1> <packageName2> ...");
 }
 
-// Function to install packages with force
 void installPackagesForce(int argc, char *argv[])
 {
     executePacmanCommand(argc, argv, INSTALL_FORCE_COMMAND, "installForce <packageName1> <packageName2> ...");
 }
 
-// Function to remove packages
 void removePackagesForceWithDependencies(int argc, char *argv[])
 {
     executePacmanCommand(argc, argv, "sudo pacman -Rdds ", "remove <packageName1> <packageName2> ...");
 }
 
-// Function to install packages
 void installPackages(int argc, char *argv[])
 {
     if (argc >= 3)
@@ -98,7 +92,6 @@ void installPackages(int argc, char *argv[])
     }
 }
 
-// Function to remove packages
 void removePackages(int argc, char *argv[])
 {
     if (argc >= 3)
@@ -114,7 +107,6 @@ void removePackages(int argc, char *argv[])
     }
 }
 
-// Function to query if a package is installed
 void queryPackage(char *packageName)
 {
     char command[MAX_COMMAND_LENGTH];
@@ -130,7 +122,6 @@ void queryPackage(char *packageName)
     }
 }
 
-// Function to search for a package in the repository
 void searchPackage(char *packageName)
 {
     char command[MAX_COMMAND_LENGTH];
@@ -138,7 +129,6 @@ void searchPackage(char *packageName)
     system(command);
 }
 
-// Function to remove packages
 void removePackagesWithDependencies(int argc, char *argv[])
 {
     if (argc >= 3)
@@ -154,19 +144,16 @@ void removePackagesWithDependencies(int argc, char *argv[])
     }
 }
 
-// Function to remove orphan packages
 void removeOrphanPackages()
 {
     executeCommandWithUserShell("sudo pacman -Rns $(pacman -Qdtq)");
 }
 
-// Function to update system
 void updateSystem()
 {
     executeCommandWithUserShell("sudo pacman -Syyu");
 }
 
-// Function to refresh repository
 void refreshRepo()
 {
     executeCommandWithUserShell("sudo pacman -Syy");
