@@ -9,6 +9,6 @@
 #define MAX_COMMAND_LENGTH 500
 #define REMOVE_FORCE_COMMAND "sudo pacman -Rdd "
 #define INSTALL_FORCE_COMMAND "sudo pacman -Sdd "
-#define VERSION "1.1.10"
+#define VERSION "1.2.0"
 
 #endif // CONSTANTS_H
