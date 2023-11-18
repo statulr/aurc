@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <regex.h>
 
 void existingAurPackage(const char *packageName);
 void displayPkgBuild(const char *packageName, const char *downloadDir);
@@ -28,52 +29,73 @@ size_t writeData(void *buffer, size_t size, size_t nmemb, void *userp)
 
 void installAurPackages(char **packageNames, int numPackages)
 {
+    char *home = getenv("HOME");
+    if (!home)
+    {
+        fprintf(stderr, "Could not get home directory\n");
+        exit(1);
+    }
+    regex_t regex;
+    int reti;
+
+    /* Compile regular expression */
+    reti = regcomp(&regex, "^[a-zA-Z0-9_-]+$", REG_EXTENDED);
+    if (reti)
+    {
+        fprintf(stderr, "Characters not allowed\n");
+        exit(1);
+    }
+
     char downloadDir[256];
-    char command[300];
-    snprintf(downloadDir, sizeof(downloadDir), "%s", "~/.cache/aurc/");
+    snprintf(downloadDir, sizeof(downloadDir), "%s/.cache/aurc/", home);
 
     char mkdirCommand[200];
     snprintf(mkdirCommand, sizeof(mkdirCommand), "mkdir -p %s", downloadDir);
     system(mkdirCommand);
 
+    CURL *curl = curl_easy_init();
+    if (!curl)
+    {
+        fprintf(stderr, "Failed to initialize curl\n");
+        exit(1);
+    }
+
     for (int i = 0; i < numPackages; ++i)
     {
         char *packageName = packageNames[i];
 
-        char url[256];
-        snprintf(url, sizeof(url), "https://aur.archlinux.org/cgit/aur.git/snapshot/%s.tar.gz", packageName);
-
-        char checkUrlCommand[300];
-        snprintf(checkUrlCommand, sizeof(checkUrlCommand), "curl -o /dev/null --silent --head --fail %s", url);
-        int urlStatus = system(checkUrlCommand);
-
-        if (urlStatus != 0)
+        /* Execute regular expression */
+        reti = regexec(&regex, packageName, 0, NULL, 0);
+        if (!reti)
         {
-            printf("Error: Package '%s' not found.\n", packageName);
-            existingAurPackage(packageName);
-            continue;
-        }
-        char downloadCommand[300];
-        snprintf(downloadCommand, sizeof(downloadCommand), "curl -L -o %s/%s.tar.gz %s", downloadDir, packageName, url);
-        system(downloadCommand);
-        char extractCommand[300];
-        snprintf(extractCommand, sizeof(extractCommand), "tar -xzf %s/%s.tar.gz -C %s", downloadDir, packageName, downloadDir);
-        system(extractCommand);
+            // Package name is valid, continue with the installation
+            char url[256];
+            snprintf(url, sizeof(url), "https://aur.archlinux.org/cgit/aur.git/snapshot/%s.tar.gz", packageName);
+            char downloadCommand[300];
+            snprintf(downloadCommand, sizeof(downloadCommand), "%s/%s.tar.gz", downloadDir, packageName);
 
-        char userInput[10];
-        printf("Do you want to view the PKGBUILD for '%s' before installation? (Recommended) (y/n): ", packageName);
-        fgets(userInput, sizeof(userInput), stdin);
+            curl_easy_setopt(curl, CURLOPT_URL, url);
+            FILE *file = fopen(downloadCommand, "wb");
+            if (!file)
+            {
+                fprintf(stderr, "Failed to open file %s\n", downloadCommand);
+                continue;
+            }
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+            CURLcode res = curl_easy_perform(curl);
+            fclose(file);
+            if (res != CURLE_OK)
+            {
+                fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            }
 
-        if (userInput[0] == '\n')
-        {
-            userInput[0] = 'y';
-        }
+            char extractCommand[300];
+            snprintf(extractCommand, sizeof(extractCommand), "tar -xzf %s/%s.tar.gz -C %s", downloadDir, packageName, downloadDir);
+            system(extractCommand);
 
-        if (tolower(userInput[0]) == 'y')
-        {
-            displayPkgBuild(packageName, downloadDir);
-
-            printf("Do you want to continue with the installation of '%s'? (y/n): ", packageName);
+            char userInput[10];
+            printf("Do you want to view the PKGBUILD for '%s' before installation? (Recommended) (y/n): ", packageName);
             fgets(userInput, sizeof(userInput), stdin);
 
             if (userInput[0] == '\n')
@@ -81,58 +103,68 @@ void installAurPackages(char **packageNames, int numPackages)
                 userInput[0] = 'y';
             }
 
-            if (tolower(userInput[0]) != 'y')
+            if (tolower(userInput[0]) == 'y')
             {
-                printf("Installation of '%s' aborted.\n", packageName);
-                char cleanupCommand[300];
-                snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
-                system(cleanupCommand);
-                continue;
+                displayPkgBuild(packageName, downloadDir);
+
+                printf("Do you want to continue with the installation of '%s'? (y/n): ", packageName);
+                fgets(userInput, sizeof(userInput), stdin);
+
+                if (userInput[0] == '\n')
+                {
+                    userInput[0] = 'y';
+                }
+
+                if (tolower(userInput[0]) != 'y')
+                {
+                    printf("Installation of '%s' aborted.\n", packageName);
+                    char cleanupCommand[300];
+                    snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
+                    system(cleanupCommand);
+                    continue;
+                }
+            }
+            char buildCommand[300];
+            snprintf(buildCommand, sizeof(buildCommand), "cd %s/%s && makepkg -si", downloadDir, packageName);
+
+            pid_t pid = fork();
+            if (pid == -1)
+            {
+                perror("Fork failed");
+                exit(EXIT_FAILURE);
+            }
+            else if (pid == 0)
+            {
+                execlp("sh", "sh", "-c", buildCommand, (char *)NULL);
+                _exit(EXIT_FAILURE);
+            }
+            else
+            {
+                int status;
+                waitpid(pid, &status, 0);
+                if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+                {
+                    printf("Installation of '%s' failed.\n", packageName);
+                }
             }
         }
-        char buildCommand[300];
-        snprintf(buildCommand, sizeof(buildCommand), "cd %s/%s && makepkg -si", downloadDir, packageName);
-
-        pid_t pid = fork();
-        if (pid == -1)
+        else if (reti == REG_NOMATCH)
         {
-            perror("Fork failed");
-            exit(EXIT_FAILURE);
-        }
-        else if (pid == 0)
-        {
-            execlp("sh", "sh", "-c", buildCommand, (char *)NULL);
-            _exit(EXIT_FAILURE);
+            printf("Invalid package name '%s'.\n", packageName);
+            continue;
         }
         else
         {
-            int status;
-            waitpid(pid, &status, 0);
-            if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-            {
-                printf("Installation of '%s' failed.\n", packageName);
-                char cleanupCommand[300];
-                snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
-                system(cleanupCommand);
-                continue;
-            }
-        }
-
-        printf("Do you want to clean up the build cache for '%s'? (Recommended) (y/n): ", packageName);
-        fgets(userInput, sizeof(userInput), stdin);
-
-        if (userInput[0] == '\n')
-        {
-            userInput[0] = 'y';
-        }
-
-        if (tolower(userInput[0]) == 'y')
-        {
-            char cleanupCommand[300];
-            snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
-            system(cleanupCommand);
+            char msgbuf[100];
+            regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+            fprintf(stderr, "Regex match failed: %s\n", msgbuf);
+            exit(1);
         }
     }
+
+    /* Free compiled regular expression if you want to use the regex_t again */
+    regfree(&regex);
+    curl_easy_cleanup(curl);
 }
 
 void queryAurRepo(const char *packageName, char *message)
