@@ -14,13 +14,13 @@ typedef enum
 } CommandType;
 
 // Function to map strings to CommandType values
-CommandType getCommandType(const char *str)
+CommandType getCommandType(const char* str)
 {
-    if (strcmp(str, "--version") == 0 || strcmp(str, "-v") == 0)
+    if (strncmp(str, "--version", 9) == 0 || strncmp(str, "-v", 2) == 0)
     {
         return CMD_VERSION;
     }
-    if (strcmp(str, "--help") == 0 || strcmp(str, "-h") == 0)
+    if (strncmp(str, "--help", 6) == 0 || strncmp(str, "-h", 2) == 0)
     {
         return CMD_HELP;
     }
