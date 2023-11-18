@@ -6,7 +6,6 @@
 #include <bsd/string.h> // Include for strlcat
 #include "constants.h"
 
-// Function to execute a pacman command
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage)
 {
     if (argc >= 3)
@@ -30,7 +29,7 @@ void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, con
             return;
         }
 
-        strcpy(command, commandPrefix);
+        strncpy(command, commandPrefix, commandLength);
         for (int i = 2; i < argc; ++i)
         {
             strlcat(command, argv[i], commandLength);
@@ -49,14 +48,13 @@ void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, con
     }
 }
 
-// Function to install local packages
 void installLocalPackages(int argc, char *argv[])
 {
     if (argc >= 3)
     {
         char command[MAX_COMMAND_LENGTH];
-        strcpy(command, "sudo pacman -U ");
-        strcat(command, argv[2]);
+        strncpy(command, "sudo pacman -U ", MAX_COMMAND_LENGTH);
+        strncat(command, argv[2], MAX_COMMAND_LENGTH - strlen(command) - 1);
         command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
         system(command);
     }
