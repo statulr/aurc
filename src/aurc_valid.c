@@ -17,7 +17,7 @@ int isValidAction(const char *action)
         "install", "install-force", "remove", "query", "search", "remove-dep",
         "clear-aur-cache", "update", "refresh", "modify-repo", "remove-force",
         "remove-force-dep", "search-aur", "install-aur", "install-local", "remove-orp",
-        "github"};
+        "github", "config"};
 
     // Calculate the size of validActions array dynamically
     size_t numValidActions = sizeof(validActions) / sizeof(validActions[0]);

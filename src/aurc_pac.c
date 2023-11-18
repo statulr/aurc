@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "aurc_colors.c"
-#include <bsd/string.h> // Include for strlcat
+#include "aurc_colors.h"
+#include <bsd/string.h>
 #include "constants.h"
 
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage)
@@ -54,7 +54,7 @@ void installLocalPackages(int argc, char *argv[])
     {
         char command[MAX_COMMAND_LENGTH];
         strncpy(command, "sudo pacman -U ", MAX_COMMAND_LENGTH);
-        strncat(command, argv[2], MAX_COMMAND_LENGTH - strlen(command) - 1);
+        strlcat(command, argv[2], MAX_COMMAND_LENGTH - strlen(command) - 1);
         command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
         system(command);
     }
@@ -172,13 +172,28 @@ void refreshRepo()
     executeCommandWithUserShell("sudo pacman -Syy");
 }
 
-// Function to modify repository
 void modifyRepo()
 {
-    const char *editor = getenv("EDITOR");
-    if (editor == NULL)
+    char editor[256] = "vi"; // default to Vi (Vim's Older Version)
+
+    char *home = getenv("HOME");
+    if (!home)
     {
-        editor = "nano"; // default to nano if $EDITOR is not set
+        fprintf(stderr, "Could not get home directory\n");
+        exit(1);
+    }
+
+    char configPath[256];
+    snprintf(configPath, sizeof(configPath), "%s/.aurcrc", home);
+
+    FILE *file = fopen(configPath, "r");
+    if (file)
+    {
+        if (fscanf(file, "editor=%255s", editor) != 1)
+        {
+            fprintf(stderr, "Failed to read editor from configuration file\n");
+        }
+        fclose(file);
     }
 
     const size_t commandSize = 1024;
@@ -187,7 +202,7 @@ void modifyRepo()
     int ret = snprintf(command, commandSize, "sudo %s /etc/pacman.d/mirrorlist", editor);
     if (ret < 0 || (size_t)ret >= commandSize)
     {
-        fprintf(stderr, "Failed to generate command\n");
+        fprintf(stderr, "Failed to open\n");
         return;
     }
 

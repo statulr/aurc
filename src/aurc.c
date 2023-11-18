@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
         printf("  " GREEN "install-local" RESET "    Install a local package\n");
         printf("  " GREEN "install-aur" RESET "      Install aur package\n");
         printf("  " GREEN "github" RESET "           Checkout our GitHub!\n");
+        printf("  " GREEN "config" RESET "           Configure your Aurc!\n");
         printf("  " YELLOW "install-force" RESET "    Forcefully install packages\n");
         printf("  " YELLOW "modify-repo" RESET "      Modify arch repositories\n");
         printf("  " YELLOW "query" RESET "            Query if a package is installed\n");
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
         printf("\nOptions:\n");
         printf("  --version, -v    Display the version of the package manager\n");
         printf("  --help, -h       Display this help guide\n");
+        printf("  --editor, -e     Set the default text editor (Must use config, Ex: aurc config -e editor)\n");
         return 0;
     }
     if (argc == 2 && getCommandType(argv[1]) == CMD_VERSION)
@@ -251,6 +253,11 @@ int main(int argc, char *argv[])
     else if (strcmp(action, "clear-aur-cache") == 0)
     {
         clearAurBuildCache();
+        return 0;
+    }
+    else if (strcmp(action, "config") == 0)
+    {
+        handleConfigCommand(argc, argv);
         return 0;
     }
 
