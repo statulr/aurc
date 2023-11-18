@@ -177,12 +177,21 @@ void refreshRepo()
 // Function to modify repo
 void modifyRepo()
 {
-    char *editor = getenv("EDITOR");
+    const char *editor = getenv("EDITOR");
     if (editor == NULL)
     {
         editor = "nano"; // default to nano if $EDITOR is not set
     }
-    char command[256];
-    snprintf(command, sizeof(command), "sudo %s /etc/pacman.d/mirrorlist", editor);
+
+    const size_t commandSize = 1024;
+    char command[commandSize];
+
+    int ret = snprintf(command, commandSize, "sudo %s /etc/pacman.d/mirrorlist", editor);
+    if (ret < 0 || (size_t)ret >= commandSize)
+    {
+        fprintf(stderr, "Failed to generate command\n");
+        return;
+    }
+
     executeCommandWithUserShell(command);
 }

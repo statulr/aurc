@@ -61,21 +61,16 @@ void installAurPackages(char **packageNames, int numPackages)
             existingAurPackage(packageName);
             continue;
         }
-        // Check if the package is already installed
         char downloadCommand[300];
-        // Use snprintf to avoid buffer overflow
         snprintf(downloadCommand, sizeof(downloadCommand), "curl -L -o %s/%s.tar.gz %s", downloadDir, packageName, url);
         // Download the package
         system(downloadCommand);
-        // Check if the package is already installed
         char extractCommand[300];
-        // Use snprintf to avoid buffer overflow
         snprintf(extractCommand, sizeof(extractCommand), "tar -xzf %s/%s.tar.gz -C %s", downloadDir, packageName, downloadDir);
         // Extract the package
         system(extractCommand);
         // Check if the package is already installed
         char userInput[10];
-        // Ask the user if they want to view the PKGBUILD before installation
         printf("Do you want to view the PKGBUILD for '%s' before installation? (Recommended) (y/n): ", packageName);
         // Read the user input
         fgets(userInput, sizeof(userInput), stdin);
@@ -105,13 +100,11 @@ void installAurPackages(char **packageNames, int numPackages)
                 // Print a message and clean up in case of abort
                 printf("Installation of '%s' aborted.\n", packageName);
                 char cleanupCommand[300];
-                // Use snprintf to avoid buffer overflow
                 snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
                 system(cleanupCommand);
                 continue;
             }
         }
-        // Check if the package is already installed
         char buildCommand[300];
         // Construct the command to build and install the package
         snprintf(buildCommand, sizeof(buildCommand), "cd %s/%s && makepkg -si", downloadDir, packageName);
@@ -135,7 +128,6 @@ void installAurPackages(char **packageNames, int numPackages)
             // In the parent process, wait for the child process to finish
             int status;
             waitpid(pid, &status, 0);
-            // If the child process did not exit successfully, handle the error
             if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
             {
                 printf("Installation of '%s' failed.\n", packageName);
