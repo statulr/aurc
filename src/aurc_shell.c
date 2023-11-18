@@ -3,14 +3,13 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <string.h>
 #include <pwd.h>
 
 // Get the current user's shell
 char *getCurrentUserShell()
 {
     struct passwd *pw = getpwuid(getuid());
-    if (pw == NULL)
+    if (pw == NULL || pw->pw_shell == NULL)
     {
         perror("getpwuid");
         return NULL;
@@ -51,9 +50,12 @@ void executeCommandWithUserShell(char *command)
         char *argv[] = {userShell, "-c", command, NULL};
 
         printf("Executing command with user's shell: %s\n", userShell);
-        execvp(userShell, argv);
-
-        perror("execvp");
+        if (execvp(userShell, argv) == -1)
+        {
+            perror("execvp");
+            free(userShell);
+            exit(EXIT_FAILURE);
+        }
     }
     else
     {
