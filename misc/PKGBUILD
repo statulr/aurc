@@ -25,7 +25,7 @@ optdepends=(
   'sudo: privilege elevation'
 )
 source=("${pkgenv}-${pkgver}.tar.gz::https://github.com/statulr/aurc/archive/${pkgver}.tar.gz")
-sha256sums=('ba60f1043fb50e65d461ce8c076d54997f05df6220d8802f0319857f2a3fd17e') # needs to update the sha256sum for every git archive ${pkgver} tarball from ${source}
+sha256sums=('0169cecc748f1711854214fe1a420a90ab55c9ed15edc7f56d47a48483a9f02c') # needs to update the sha256sum for every git archive ${pkgver} tarball from ${source}
 
 build() {
   cd ${pkgenv}-${pkgver}/src
