@@ -1,7 +1,15 @@
 # Aurc
 Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
-![aurcbanner](https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9)
 #### Special Shoutout to All Contributors (This includes Issues and Etc) I really appreciate you guys
+
+<div align = center><img src="https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9"><br><br>
+  &ensp;[<kbd> <br> Usage <br> </kbd>](#Installation)&ensp;
+  &ensp;[<kbd> <br> Installation <br> </kbd>](#Update)&ensp;
+  &ensp;[<kbd> <br> Updating <br> </kbd>](#Packages)&ensp;
+  &ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
+<br><br><br><br></div>
+
+
 ## TODO
 
 - [x] Complete the Essential Pacman Functions
@@ -52,7 +60,8 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
     - --help,    -h - ( Display this help guide )
 
 ## Installation
-### Make sure you are in the SRC Directory
+> [!CAUTION]
+> Make sure you are in the SRC Directory
   * Install dependencies : 
 
       ```bash
@@ -98,7 +107,8 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
       sudo pacman -U aurc-${version}-x86_64.pkg.tar.zst
       ```
 ## Updating
-### Make sure you are in the SRC Directory
+> [!CAUTION]
+> Make sure you are in the SRC Directory
    ```bash
    git fetch & git pull
    ```
@@ -106,6 +116,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    ```bash
    sudo rm -rd build && sudo make clean install
    ```
+## Meme
 [![meme](https://media.discordapp.net/attachments/1067268771238129724/1176522320878248036/image.png?ex=656f2ccc&is=655cb7cc&hm=f013e5fb79a07d61671a95b4b7c0b8befb96e5fb8f1141e07f8c08c21b68a600&=&width=438&height=443)](https://www.youtube.com/watch?v=jyARhOtwHUc)
 
 Thank you for helping me out with issues and bug reports and extra help including code suggestions, etc:
