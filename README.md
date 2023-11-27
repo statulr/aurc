@@ -1,6 +1,6 @@
 # Aurc
 Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
-#### Special Shoutout to All Contributors (This includes Issues and Etc) I really appreciate you guys
+[#### Special Shoutout to All Contributors (This includes Issues and Etc) I really appreciate you guys](#Contributors)
 
 <div align = center><img src="https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9"><br><br>
 
@@ -8,6 +8,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 &ensp;[<kbd> <br> Installation <br> </kbd>](#Installation)&ensp;
 &ensp;[<kbd> <br> Updating <br> </kbd>](#Updating)&ensp;
 &ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
+&ensp;[<kbd> <br> Contributors <br> </kbd>](#Contributors)&ensp;
 <br><br><br><br></div>
 ## TODO
 
@@ -118,8 +119,11 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 ## Meme
 [![meme](https://media.discordapp.net/attachments/1067268771238129724/1176522320878248036/image.png?ex=656f2ccc&is=655cb7cc&hm=f013e5fb79a07d61671a95b4b7c0b8befb96e5fb8f1141e07f8c08c21b68a600&=&width=438&height=443)](https://www.youtube.com/watch?v=jyARhOtwHUc)
 
-Thank you for helping me out with issues and bug reports and extra help including code suggestions, etc:
-@xslendix
-@rifsxd
-@umutsevdi 
-@braddotcoffee 
+# Contributors
+[@xslendix](https://github.com/xslendix)
+<br>
+[@rifsxd](https://github.com/rifsxd)
+<br>
+[@umutsevdi ](https://github.com/mutsvedi)
+<br>
+[@braddotcoffee ](https://github.com/braddotcoffee)
