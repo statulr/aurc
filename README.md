@@ -3,13 +3,12 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 #### Special Shoutout to All Contributors (This includes Issues and Etc) I really appreciate you guys
 
 <div align = center><img src="https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9"><br><br>
-  &ensp;[<kbd> <br> Usage <br> </kbd>](#Installation)&ensp;
-  &ensp;[<kbd> <br> Installation <br> </kbd>](#Update)&ensp;
-  &ensp;[<kbd> <br> Updating <br> </kbd>](#Packages)&ensp;
-  &ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
+
+&ensp;[<kbd> <br> Usage <br> </kbd>](#Usage)&ensp;
+&ensp;[<kbd> <br> Installation <br> </kbd>](#Installation)&ensp;
+&ensp;[<kbd> <br> Updating <br> </kbd>](#Updating)&ensp;
+&ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
 <br><br><br><br></div>
-
-
 ## TODO
 
 - [x] Complete the Essential Pacman Functions
