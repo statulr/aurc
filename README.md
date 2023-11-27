@@ -107,3 +107,9 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    sudo rm -rd build && sudo make clean install
    ```
 [![meme](https://media.discordapp.net/attachments/1067268771238129724/1176522320878248036/image.png?ex=656f2ccc&is=655cb7cc&hm=f013e5fb79a07d61671a95b4b7c0b8befb96e5fb8f1141e07f8c08c21b68a600&=&width=438&height=443)](https://www.youtube.com/watch?v=jyARhOtwHUc)
+
+Thank you for helping me out with issues and bug reports and extra help including code suggestions, etc:
+@xslendix
+@rifsxd
+@umutsevdi 
+@braddotcoffee 
