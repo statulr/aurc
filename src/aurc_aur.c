@@ -28,7 +28,7 @@ size_t writeData(void *buffer, size_t size, size_t nmemb, void *userp)
     return realSize;
 }
 
-void installAurPackages(char **packageNames, int numPackages)
+void installAurPackages(char **packageNames, unsigned int numPackages)
 {
     char *home = getenv("HOME");
     if (!home)
@@ -50,9 +50,7 @@ void installAurPackages(char **packageNames, int numPackages)
     char downloadDir[256];
     snprintf(downloadDir, sizeof(downloadDir), "%s/.cache/aurc/", home);
 
-    char mkdirCommand[200];
-    snprintf(mkdirCommand, sizeof(mkdirCommand), "mkdir -p %s", downloadDir);
-    system(mkdirCommand);
+    mkdir(downloadDir, 0755);
 
     CURL *curl = curl_easy_init();
     if (!curl)
@@ -61,15 +59,24 @@ void installAurPackages(char **packageNames, int numPackages)
         exit(1);
     }
 
-    for (int i = 0; i < numPackages; ++i)
+    for (unsigned int i = 0; i < numPackages; ++i)
     {
         char *packageName = packageNames[i];
+        printf("Package(s) Requested: ");
+        for (unsigned int i = 0; i < numPackages; ++i)
+        {
+            printf("%s", packageNames[i]);
+            if (i < numPackages - 1)
+            {
+                printf(", ");
+            }
+        }
+        printf("\n");
 
-        /* Execute regular expression */
         reti = regexec(&regex, packageName, 0, NULL, 0);
         if (!reti)
         {
-            // Package name is valid, continue with the installation
+
             char url[256];
             snprintf(url, sizeof(url), "https://aur.archlinux.org/cgit/aur.git/snapshot/%s.tar.gz", packageName);
             char downloadCommand[300];
