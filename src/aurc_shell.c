@@ -15,15 +15,14 @@ char *getCurrentUserShell()
         return NULL;
     }
 
-    // Find the shell name in the shell path
     char *shellName = strrchr(pw->pw_shell, '/');
     if (shellName != NULL)
     {
-        shellName++; // Skip the slash
+        shellName++;
     }
     else
     {
-        shellName = pw->pw_shell; // If there's no slash, the whole string is the shell name
+        shellName = pw->pw_shell;
     }
 
     char *shell = strdup(shellName);
@@ -81,7 +80,6 @@ void executeCommandWithUserShell(char *command)
     }
     else if (pid == 0)
     {
-        // Child process
         if (execvp(userShell, argv) == -1)
         {
             perror("Failed to execute command with execvp");
