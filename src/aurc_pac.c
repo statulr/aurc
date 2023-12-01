@@ -53,7 +53,7 @@ void installLocalPackages(int argc, char *argv[])
         char command[MAX_COMMAND_LENGTH];
         strncpy(command, "sudo pacman -U ", MAX_COMMAND_LENGTH);
         strlcat(command, argv[2], MAX_COMMAND_LENGTH - strlen(command) - 1);
-        command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
+        command[MAX_COMMAND_LENGTH - 1] = '\0';
         system(command);
     }
     else
@@ -83,7 +83,7 @@ void installPackages(int argc, char *argv[])
     {
         char command[MAX_COMMAND_LENGTH];
         snprintf(command, sizeof(command), "sudo pacman -S %s", argv[2]);
-        command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
+        command[MAX_COMMAND_LENGTH - 1] = '\0';
         executeCommandWithUserShell(command);
     }
     else
@@ -98,7 +98,7 @@ void removePackages(int argc, char *argv[])
     {
         char command[MAX_COMMAND_LENGTH];
         snprintf(command, sizeof(command), "sudo pacman -R %s", argv[2]);
-        command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
+        command[MAX_COMMAND_LENGTH - 1] = '\0';
         executeCommandWithUserShell(command);
     }
     else
@@ -135,7 +135,7 @@ void removePackagesWithDependencies(int argc, char *argv[])
     {
         char command[MAX_COMMAND_LENGTH];
         snprintf(command, sizeof(command), "sudo pacman -Rs %s", argv[2]);
-        command[MAX_COMMAND_LENGTH - 1] = '\0'; // Ensure null terminator
+        command[MAX_COMMAND_LENGTH - 1] = '\0';
         executeCommandWithUserShell(command);
     }
     else
