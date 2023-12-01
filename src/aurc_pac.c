@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <bsd/string.h>
 #include "constants.h"
 #include "colors.h"
 
