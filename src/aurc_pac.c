@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <bsd/string.h>
 #include "constants.h"
 #include "colors.h"
 
+// Will test the removal of <bsd/string.h> once I am home (Online Commit)
 void executePacmanCommand(int argc, char *argv[], const char *commandPrefix, const char *usageMessage)
 {
     if (argc < 3)
