@@ -5,8 +5,8 @@ Please make sure to use the latest version :D
 
 | Version | Supported          |
 | ------- | ------------------ |
-| >1.2.0   | :white_check_mark: |
-| <1.1.9   | :x:                |
+| >1.2.2   | :white_check_mark: |
+| <1.2.1   | :x:                |
 
 ## Reporting a Vulnerability
 
