@@ -1,6 +1,6 @@
 # Makefile for Aurc
 
-LDFLAGS = -lcurl -larchive
+LDFLAGS = -lcurl -larchive -ljson-c
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 

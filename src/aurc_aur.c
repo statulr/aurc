@@ -8,9 +8,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <regex.h>
+#include <json-c/json.h>
 #include "colors.h"
 
-void existingAurPackage(const char *packageName);
 void displayPkgBuild(const char *packageName, const char *downloadDir);
 
 size_t writeData(void *buffer, size_t size, size_t nmemb, void *userp)
@@ -26,6 +26,59 @@ size_t writeData(void *buffer, size_t size, size_t nmemb, void *userp)
         strncat(userp, buffer, remaining);
     }
     return realSize;
+}
+
+size_t WriteCallback(void *contents, size_t size, size_t nmemb, char *userp)
+{
+    size_t totalSize = size * nmemb;
+    if (totalSize < 1024) // assuming readBuffer is 1024 bytes
+    {
+        memcpy(userp, contents, totalSize);
+        userp[totalSize] = 0; // Null-terminate the string
+    }
+    return totalSize;
+}
+
+int existingAurPackage(const char *packageName)
+{
+    CURL *curl;
+    CURLcode res;
+    char readBuffer[1024] = {0}; // Initialize all elements to 0
+    char url[256];               // Adjust size as needed
+
+    sprintf(url, "https://aur.archlinux.org/rpc/?v=5&type=info&arg=%s", packageName);
+
+    curl = curl_easy_init();
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+
+        if (res != CURLE_OK)
+        {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            return 0;
+        }
+        else
+        {
+            // Parse JSON response
+            struct json_object *parsed_json;
+            parsed_json = json_tokener_parse(readBuffer);
+            struct json_object *resultcount;
+            json_object_object_get_ex(parsed_json, "resultcount", &resultcount);
+            int count = json_object_get_int(resultcount);
+
+            // Free JSON object
+            json_object_put(parsed_json);
+
+            return count > 0;
+        }
+    }
+
+    return 0;
 }
 
 void installAurPackages(char **packageNames, unsigned int numPackages)
@@ -62,6 +115,12 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
     for (unsigned int i = 0; i < numPackages; ++i)
     {
         char *packageName = packageNames[i];
+        if (!existingAurPackage(packageName))
+        {
+            fprintf(stderr, RED "Package %s does not exist\n", packageName);
+            printf(RESET);
+            continue;
+        }
         printf("Package(s) Requested: ");
         for (unsigned int i = 0; i < numPackages; ++i)
         {
@@ -125,7 +184,7 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
 
                 if (tolower(userInput[0]) != 'y')
                 {
-                    printf("Installation of '%s' aborted.\n", packageName);
+                    fprintf(stderr, "Installation of '%s' aborted.\n", packageName);
                     char cleanupCommand[300];
                     snprintf(cleanupCommand, sizeof(cleanupCommand), "rm -rf %s/%s %s/%s.tar.gz", downloadDir, packageName, downloadDir, packageName);
                     system(cleanupCommand);
@@ -208,7 +267,7 @@ void searchAurPackage(char *packageName)
     queryAurRepo(packageName, "Search results for");
 }
 
-void existingAurPackage(const char *packageName)
+void existingPackage(const char *packageName)
 {
     queryAurRepo(packageName, "Available & similar packages for");
 }
