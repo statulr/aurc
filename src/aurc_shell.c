@@ -5,7 +5,6 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-// Get the current user's shell
 char *getCurrentUserShell()
 {
     struct passwd *pw = getpwuid(getuid());
