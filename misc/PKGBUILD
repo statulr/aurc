@@ -20,6 +20,7 @@ depends=(
   'git'
   'sudo'
   'tar'
+  'json-c'
 )
 optdepends=(
   'sudo: privilege elevation'
