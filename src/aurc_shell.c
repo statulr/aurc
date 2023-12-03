@@ -87,7 +87,6 @@ void executeCommandWithUserShell(char *command)
     }
     else
     {
-        // Parent process
         int status;
         if (waitpid(pid, &status, 0) == -1)
         {

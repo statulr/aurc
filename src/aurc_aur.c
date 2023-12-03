@@ -64,14 +64,12 @@ int existingAurPackage(const char *packageName)
         }
         else
         {
-            // Parse JSON response
             struct json_object *parsed_json;
             parsed_json = json_tokener_parse(readBuffer);
             struct json_object *resultcount;
             json_object_object_get_ex(parsed_json, "resultcount", &resultcount);
             int count = json_object_get_int(resultcount);
 
-            // Free JSON object
             json_object_put(parsed_json);
 
             return count > 0;
@@ -92,7 +90,6 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
     regex_t regex;
     int reti;
 
-    /* Compile regular expression */
     reti = regcomp(&regex, "^[a-zA-Z0-9_-]+$", REG_EXTENDED);
     if (reti)
     {
