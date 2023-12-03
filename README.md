@@ -4,7 +4,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 
 &ensp;[<kbd> <br> Usage <br> </kbd>](#Usage)&ensp;
 &ensp;[<kbd> <br> Installation <br> </kbd>](#Installation)&ensp;
-&ensp;[<kbd> <br> Manual Installation <br> </kbd>](#Manual)&ensp;
+&ensp;[<kbd> <br> Manual Installation <br> </kbd>](#manual-installation)&ensp;
 &ensp;[<kbd> <br> Updating <br> </kbd>](#Updating)&ensp;
 &ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
 &ensp;[<kbd> <br> Contributors <br> </kbd>](#Contributors)&ensp;
