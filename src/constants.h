@@ -10,5 +10,6 @@
 #define REMOVE_FORCE_COMMAND "sudo pacman -Rdd "
 #define INSTALL_FORCE_COMMAND "sudo pacman -Sdd "
 #define VERSION "1.2.2"
+#define MULTIPLE_ARGS "argc >= 3"
 
 #endif // CONSTANTS_H
