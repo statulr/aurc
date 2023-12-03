@@ -7,6 +7,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 
 &ensp;[<kbd> <br> Usage <br> </kbd>](#Usage)&ensp;
 &ensp;[<kbd> <br> Installation <br> </kbd>](#Installation)&ensp;
+&ensp;[<kbd> <br> Manual Installation <br> </kbd>](#Manual)&ensp;
 &ensp;[<kbd> <br> Updating <br> </kbd>](#Updating)&ensp;
 &ensp;[<kbd> <br> Meme <br> </kbd>](#Meme)&ensp;
 &ensp;[<kbd> <br> Contributors <br> </kbd>](#Contributors)&ensp;
@@ -59,8 +60,14 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
   * Options :
     - --version, -v - ( Display the version of the package manager )
     - --help,    -h - ( Display this help guide )
+## Installation 
+ * This methods uses the AUR
+   ```bash
+   yay -S aurc
+   ```
+   * This method is encouraged for those that do not want to manually update
 
-## Installation
+## Manual Installation
 > [!CAUTION]
 > Make sure you are in the SRC Directory
   * Install dependencies : 
@@ -117,6 +124,10 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
    ```bash
    sudo rm -rd build && sudo make clean install
    ```
+### Updating via AUR
+```bash
+yay
+```
 ## Meme
 [![meme](https://media.discordapp.net/attachments/1067268771238129724/1176522320878248036/image.png?ex=656f2ccc&is=655cb7cc&hm=f013e5fb79a07d61671a95b4b7c0b8befb96e5fb8f1141e07f8c08c21b68a600&=&width=438&height=443)](https://www.youtube.com/watch?v=jyARhOtwHUc)
 
