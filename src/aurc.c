@@ -21,7 +21,7 @@ void sanitizeInput(const char *input, char *output, size_t size)
     output[size - 1] = '\0';
 }
 
-int main(int argc, char *argv[])
+signed int main(unsigned int argc, char *argv[])
 {
     // Check for help flag
     if (argc == 2 && getCommandType(argv[1]) == CMD_HELP)
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 
     if (strcmp(action, "install") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             installPackages(argc, argv);
         }
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "install-local") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             installLocalPackages(argc, argv);
         }
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "install-aur") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             int numPackages = argc - 2;
             char **packageNames = argv + 2;
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "install-force") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             installPackagesForce(argc, argv);
         }
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "remove") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             removePackages(argc, argv);
         }
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "remove-dep") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             removePackagesWithDependencies(argc, argv);
         }
@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "remove-force") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             removePackagesForce(argc, argv);
         }
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(action, "remove-force-dep") == 0)
     {
-        if (argc >= 3)
+        if (MULTIPLE_ARGS)
         {
             removePackagesForceWithDependencies(argc, argv);
         }
