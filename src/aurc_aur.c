@@ -31,10 +31,10 @@ size_t writeData(void *buffer, size_t size, size_t nmemb, void *userp)
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, char *userp)
 {
     size_t totalSize = size * nmemb;
-    if (totalSize < 1024) // assuming readBuffer is 1024 bytes
+    if (totalSize < 1024)
     {
         memcpy(userp, contents, totalSize);
-        userp[totalSize] = 0; // Null-terminate the string
+        userp[totalSize] = 0;
     }
     return totalSize;
 }
@@ -43,8 +43,8 @@ int existingAurPackage(const char *packageName)
 {
     CURL *curl;
     CURLcode res;
-    char readBuffer[1024] = {0}; // Initialize all elements to 0
-    char url[256];               // Adjust size as needed
+    char readBuffer[1024] = {0};
+    char url[256];
 
     sprintf(url, "https://aur.archlinux.org/rpc/?v=5&type=info&arg=%s", packageName);
 

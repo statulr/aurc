@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
     {
         if (argc == 3)
         {
-            searchAurPackage(argv[2]);
+            searchPackage(argv[2]);
         }
         else
         {
