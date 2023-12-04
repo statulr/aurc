@@ -8,6 +8,9 @@ Please make sure to use the latest version :D
 | >1.2.2   | :white_check_mark: |
 | <1.2.1   | :x:                |
 
+## Updating
+Please refer to the guide in the README, if you use AUR then just run `yay` or `aurc update` (Not tested or recommended to do aurc update)
+
 ## Reporting a Vulnerability
 
 If you find a vulnerability do not hesitate to let us know by opening a new issue immediately thank you, or if you believe it is a serious bug please do not hesitate to open a private vulnerability report (GitHub Feature).
