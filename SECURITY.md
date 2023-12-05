@@ -9,7 +9,7 @@ Please make sure to use the latest version :D
 | <1.2.1   | :x:                |
 
 ## Updating
-Please refer to the guide in the README, if you use AUR then just run `yay` or `aurc update` (Not tested or recommended to do aurc update)
+Please refer to the guide in the README, if you use AUR then just run `yay` or `aurc update && aurc install-aur aurc`
 
 ## Reporting a Vulnerability
 
