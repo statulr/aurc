@@ -17,8 +17,6 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 - [x] Better Inspection and Secure AUR Package Installation
 - [x] Better Optimization
 - [x] Implement Better Command Handling
-- [ ] Implement dynamic options (Ex: aurc -ia, aurc -au)
-- [ ] Clean up and refactor certain functions for speed
 
 ## Requirements
 * Arch Linux
