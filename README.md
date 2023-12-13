@@ -111,6 +111,7 @@ Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
       ```bash
       sudo pacman -U aurc-${version}-x86_64.pkg.tar.zst
       ```
+
 ## Updating
 > [!CAUTION]
 > Make sure you are in the SRC Directory
