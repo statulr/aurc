@@ -144,3 +144,4 @@ aurc update && aurc install-aur aurc
 [@braddotcoffee ](https://github.com/braddotcoffee)
 <br>
 [@Hamza12700](https://github.com/Hamza12700)
+#### If you are opening a pull request add your name here so that if it gets accepted you can automatically be added
