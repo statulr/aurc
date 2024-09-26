@@ -1,7 +1,7 @@
 # Aurc
 Fast Easy way to Install and Update Aur and Non-Aur Arch Linux Packages!
 
-- Possible rewrite, stay tuned, we will be rewriting this in rust in a different branch & the below message is true and will be fixed [This message was added on `9/26/2024`]
+- This project is now under the wavly org as a rewritten project
 EMAIL ON THE AUR PKGBUILD IS EXPIRED; MESSAGE ME ONLY BY MY PROFILE LINKS ANYONE ELSE IS AN IMPERSONATOR
 
 <div align = center><img src="https://github.com/statulr/aurc/assets/122219240/218741a8-0faa-4693-9fa8-feeb5285bfa9"><br><br>
