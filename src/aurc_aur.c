@@ -207,10 +207,34 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
             }
         }
 
-        /* --pkg restricts a split PKGBUILD to just the requested package */
-        char buildCommand[700];
-        snprintf(buildCommand, sizeof(buildCommand), "cd %s%s && makepkg -si --pkg=%s",
-                 downloadDir, packageName, packageName);
+        char scriptPath[560];
+        snprintf(scriptPath, sizeof(scriptPath), "%s%s.install.sh", downloadDir, packageName);
+        FILE *script = fopen(scriptPath, "w");
+        if (!script)
+        {
+            fprintf(stderr, RED "Failed to prepare build script for '%s'.\n" RESET, packageName);
+            continue;
+        }
+        fprintf(script,
+                "#!/bin/sh\n"
+                "set -e\n"
+                "cd \"%s%s\"\n"
+                "makepkg -s\n"
+                "files=\"\"\n"
+                "for f in $(makepkg --packagelist); do\n"
+                "    n=$(bsdtar -xOf \"$f\" .PKGINFO 2>/dev/null | awk -F' = ' '/^pkgname/{print $2; exit}')\n"
+                "    if [ \"$n\" = \"%s\" ]; then\n"
+                "        files=\"$files $f\"\n"
+                "    fi\n"
+                "done\n"
+                "if [ -z \"$files\" ]; then\n"
+                "    echo \"No built package matches '%s'.\" >&2\n"
+                "    exit 1\n"
+                "fi\n"
+                "sudo pacman -U $files\n",
+                downloadDir, packageName, packageName, packageName);
+        fclose(script);
+        chmod(scriptPath, 0755);
 
         pid_t pid = fork();
         if (pid == -1)
@@ -220,7 +244,7 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
         }
         else if (pid == 0)
         {
-            execlp("sh", "sh", "-c", buildCommand, (char *)NULL);
+            execlp("sh", "sh", scriptPath, (char *)NULL);
             _exit(EXIT_FAILURE);
         }
         else
@@ -233,8 +257,9 @@ void installAurPackages(char **packageNames, unsigned int numPackages)
                 printf(GREEN "Installation of '%s' complete.\n" RESET, packageName);
         }
 
-        char cleanupCmd[700];
-        snprintf(cleanupCmd, sizeof(cleanupCmd), "rm -rf %s%s %s", downloadDir, packageName, tarPath);
+        char cleanupCmd[900];
+        snprintf(cleanupCmd, sizeof(cleanupCmd), "rm -rf %s%s %s %s",
+                 downloadDir, packageName, tarPath, scriptPath);
         (void)system(cleanupCmd);
     }
 
